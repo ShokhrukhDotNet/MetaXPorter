@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36212.18 d17.14
+VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaXPorter.Api", "MetaXPorter.Api\MetaXPorter.Api.csproj", "{30A9518A-952B-4256-8ED5-14491A02025E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaXPorter.Api.Tests.Unit", "MetaXPorter.Api.Tests.Unit\MetaXPorter.Api.Tests.Unit.csproj", "{022CE257-5E90-4DF9-97CB-0069DDAD0236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{30A9518A-952B-4256-8ED5-14491A02025E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30A9518A-952B-4256-8ED5-14491A02025E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30A9518A-952B-4256-8ED5-14491A02025E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
