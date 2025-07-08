@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaXPorter.Api", "MetaXPor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaXPorter.Api.Tests.Unit", "MetaXPorter.Api.Tests.Unit\MetaXPorter.Api.Tests.Unit.csproj", "{022CE257-5E90-4DF9-97CB-0069DDAD0236}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaXPorter.Api.Infrastructure.Build", "MetaXPorter.Api.Infrastructure.Build\MetaXPorter.Api.Infrastructure.Build.csproj", "{9DCDB7A1-0394-4605-9700-4C4295AD5613}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{022CE257-5E90-4DF9-97CB-0069DDAD0236}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DCDB7A1-0394-4605-9700-4C4295AD5613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DCDB7A1-0394-4605-9700-4C4295AD5613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DCDB7A1-0394-4605-9700-4C4295AD5613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DCDB7A1-0394-4605-9700-4C4295AD5613}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
