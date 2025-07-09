@@ -13,7 +13,7 @@ namespace MetaXPorter.Api.Brokers.Sheets
     {
         public void Dispose() { }
 
-        public FileInfo GetFileInfo(IFormFile file)
+        private FileInfo GetFileInfo(IFormFile file)
         {
             string tempPath = Path.Combine(Path.GetTempPath(), file.FileName);
 

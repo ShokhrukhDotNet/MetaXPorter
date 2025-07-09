@@ -3,11 +3,14 @@
 // Free To Use For Reliable File Conversion
 //==================================================
 
-namespace MetaXPorter.Api.Tests.Unit
+using System.IO;
+using Microsoft.AspNetCore.Http;
+
+namespace MetaXPorter.Api.Brokers.Sheets
 {
-    public class DeleteMe
+    public partial class SheetBroker
     {
-        [Fact]
-        public void ShouldBeTrue() => Assert.True(true);
+        public FileInfo UploadFile(IFormFile file) =>
+            GetFileInfo(file);
     }
 }
