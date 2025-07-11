@@ -3,13 +3,8 @@
 // Free To Use For Reliable File Conversion
 //==================================================
 
-namespace MetaXPorter.Api.Models.Foundations.Pets
+namespace MetaXPorter.Api.Brokers.Storages
 {
-    public enum PetType
-    {
-        Cat,
-        Dog,
-        Parrot,
-        Other
-    }
+    public partial interface IStorageBroker
+    { }
 }
