@@ -3,13 +3,14 @@
 // Free To Use For Reliable File Conversion
 //==================================================
 
-namespace MetaXPorter.Api.Models.Foundations.Pets
+using Xeptions;
+
+namespace MetaXPorter.Api.Models.Foundations.Persons.Exceptions
 {
-    public enum PetType
+    public class NullPersonException : Xeption
     {
-        Cat,
-        Dog,
-        Parrot,
-        Other
+        public NullPersonException()
+            : base(message: "Person is null")
+        { }
     }
 }

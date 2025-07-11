@@ -3,13 +3,13 @@
 // Free To Use For Reliable File Conversion
 //==================================================
 
-using System.IO;
 using System.Threading.Tasks;
+using MetaXPorter.Api.Models.Orchestrations.PersonPets;
 
-namespace MetaXPorter.Api.Services.Orchestrations.ExternalPersonPets
+namespace MetaXPorter.Api.Services.Orchestrations.PersonPets
 {
-    public interface IExternalPersonPetOrchestrationService
+    public interface IPersonPetOrchestrationService
     {
-        ValueTask RetrieveAndAddFormattedExternalPersonPetsAsync(FileInfo fileInfo);
+        ValueTask<PersonPet> ProcessPersonWithPetsAsync(PersonPet personPet);
     }
 }
