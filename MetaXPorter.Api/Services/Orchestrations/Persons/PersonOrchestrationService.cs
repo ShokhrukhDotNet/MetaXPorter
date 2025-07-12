@@ -17,7 +17,7 @@ namespace MetaXPorter.Api.Services.Orchestrations.Persons
         private readonly IPersonProcessingService personProcessingService;
         private readonly IPersonXMLProcessingService personXMLProcessingService;
 
-        private const string XmlFilePath = @"C:\Users\User\Desktop\MetaXPorter\Resources\Export template.xml";
+        private const string XmlFilePath = @"C:\Users\User\Desktop\MetaXPorter\Export template.xml";
 
         public PersonOrchestrationService(
             IPersonProcessingService personProcessingService,
