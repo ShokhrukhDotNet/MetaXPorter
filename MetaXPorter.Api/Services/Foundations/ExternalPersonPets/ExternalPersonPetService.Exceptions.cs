@@ -24,14 +24,6 @@ namespace MetaXPorter.Api.Services.Foundations.ExternalPersonPets
             {
                 return await returningExternalPersonPetsFunction();
             }
-            catch (NullExternalPersonPetFileException nullFileException)
-            {
-                throw CreateAndLogValidationException(nullFileException);
-            }
-            catch (FileNotFoundExternalException fileNotFoundException)
-            {
-                throw CreateAndLogValidationException(fileNotFoundException);
-            }
             catch (IOException ioException)
             {
                 var failedDependencyException =
@@ -46,16 +38,6 @@ namespace MetaXPorter.Api.Services.Foundations.ExternalPersonPets
 
                 throw CreateAndLogServiceException(failedServiceException);
             }
-        }
-
-        private ExternalPersonPetValidationException CreateAndLogValidationException(Xeption exception)
-        {
-            var validationException =
-                new ExternalPersonPetValidationException(exception);
-
-            this.loggingBroker.LogError(validationException);
-
-            return validationException;
         }
 
         private ExternalPersonPetDependencyException CreateAndLogDependencyException(Xeption exception)

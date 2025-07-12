@@ -20,10 +20,6 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
         public async Task ShouldThrowDependencyExceptionOnRetrieveIfIOExceptionOccursAndLogItAsync()
         {
             // given
-            string filePath = Path.Combine(Path.GetTempPath(), "dummy.xlsx");
-            File.WriteAllText(filePath, "fake content");
-            FileInfo someFile = new FileInfo(filePath);
-
             var ioException = new IOException();
 
             var failedExternalPersonPetDependencyException =
@@ -33,12 +29,12 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
                 new ExternalPersonPetDependencyException(failedExternalPersonPetDependencyException);
 
             this.sheetBrokerMock.Setup(broker =>
-                broker.ReadAllExternalPersonPetsAsync(someFile))
+                broker.ReadAllExternalPersonPetsAsync())
                     .ThrowsAsync(ioException);
 
             // when
             ValueTask<List<ExternalPerson>> retrieveAllExternalPersonPetsTask =
-                this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync(someFile);
+                this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync();
 
             ExternalPersonPetDependencyException actualExternalPersonPetDependencyException =
                 await Assert.ThrowsAsync<ExternalPersonPetDependencyException>(
@@ -49,7 +45,7 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
                 .BeEquivalentTo(expectedExternalPersonPetDependencyException);
 
             this.sheetBrokerMock.Verify(broker =>
-                broker.ReadAllExternalPersonPetsAsync(someFile), Times.Once);
+                broker.ReadAllExternalPersonPetsAsync(), Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -57,18 +53,12 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
 
             this.sheetBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-
-            File.Delete(filePath);
         }
 
         [Fact]
         public async Task ShouldThrowServiceExceptionOnRetrieveIfServiceErrorOccursAndLogItAsync()
         {
             // given
-            string filePath = Path.Combine(Path.GetTempPath(), "dummy.xlsx");
-            File.WriteAllText(filePath, "fake content");
-            FileInfo someFile = new FileInfo(filePath);
-
             string exceptionMessage = GetRandomString();
             var serviceException = new Exception(exceptionMessage);
 
@@ -79,12 +69,12 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
                 new ExternalPersonPetServiceException(failedExternalPersonPetServiceException);
 
             this.sheetBrokerMock.Setup(broker =>
-                broker.ReadAllExternalPersonPetsAsync(someFile))
+                broker.ReadAllExternalPersonPetsAsync())
                     .ThrowsAsync(serviceException);
 
             // when
             ValueTask<List<ExternalPerson>> retrieveAllExternalPersonPetsTask =
-                this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync(someFile);
+                this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync();
 
             ExternalPersonPetServiceException actualExternalPersonPetServiceException =
                 await Assert.ThrowsAsync<ExternalPersonPetServiceException>(
@@ -95,7 +85,7 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
                 .BeEquivalentTo(expectedExternalPersonPetServiceException);
 
             this.sheetBrokerMock.Verify(broker =>
-                broker.ReadAllExternalPersonPetsAsync(someFile), Times.Once);
+                broker.ReadAllExternalPersonPetsAsync(), Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -103,8 +93,6 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
 
             this.sheetBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-
-            File.Delete(filePath);
         }
     }
 }

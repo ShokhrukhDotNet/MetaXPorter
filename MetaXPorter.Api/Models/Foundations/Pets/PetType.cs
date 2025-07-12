@@ -3,13 +3,17 @@
 // Free To Use For Reliable File Conversion
 //==================================================
 
+using System.Text.Json.Serialization;
+
 namespace MetaXPorter.Api.Models.Foundations.Pets
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PetType
     {
-        Cat,
-        Dog,
-        Parrot,
-        Other
+        Unknown = 0,
+        Cat = 1,
+        Dog = 2,
+        Parrot = 3,
+        Other = 4
     }
 }

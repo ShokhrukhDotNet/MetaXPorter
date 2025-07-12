@@ -4,7 +4,6 @@
 //==================================================
 
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MetaXPorter.Api.Models.Foundations.ExternalPersons;
@@ -20,17 +19,15 @@ namespace MetaXPorter.Api.Services.Processings.ExternalPersonPets
             IExternalPersonPetService externalPersonPetService) =>
                 this.externalPersonPetService = externalPersonPetService;
 
-        public async ValueTask<List<ExternalPerson>> RetrieveFormattedExternalPersonPetsAsync(FileInfo fileInfo)
+        public async ValueTask<List<ExternalPerson>> RetrieveFormattedExternalPersonPetsAsync()
         {
             var retrievedExternalPersonPets =
-                await this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync(fileInfo);
+                await this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync();
 
             List<ExternalPerson> formattedExternalPersonPets =
                 FormatProperties(retrievedExternalPersonPets);
 
             return formattedExternalPersonPets;
-
-            File.Delete(fileInfo.FullName);
         }
 
         private List<ExternalPerson> FormatProperties(List<ExternalPerson> retrievedExternalPersonPets)

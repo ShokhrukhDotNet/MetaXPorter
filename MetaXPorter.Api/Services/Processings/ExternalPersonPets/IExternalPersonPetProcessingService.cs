@@ -4,7 +4,6 @@
 //==================================================
 
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using MetaXPorter.Api.Models.Foundations.ExternalPersons;
 
@@ -12,6 +11,6 @@ namespace MetaXPorter.Api.Services.Processings.ExternalPersonPets
 {
     public interface IExternalPersonPetProcessingService
     {
-        ValueTask<List<ExternalPerson>> RetrieveFormattedExternalPersonPetsAsync(FileInfo fileInfo);
+        ValueTask<List<ExternalPerson>> RetrieveFormattedExternalPersonPetsAsync();
     }
 }

@@ -4,7 +4,6 @@
 //==================================================
 
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using MetaXPorter.Api.Brokers.Loggings;
 using MetaXPorter.Api.Brokers.Sheets;
@@ -25,14 +24,8 @@ namespace MetaXPorter.Api.Services.Foundations.ExternalPersonPets
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<List<ExternalPerson>> RetrieveAllExternalPersonPetsAsync(FileInfo fileInfo) =>
+        public ValueTask<List<ExternalPerson>> RetrieveAllExternalPersonPetsAsync() =>
         TryCatch(async () =>
-        {
-            ValidateFileInfoIsNotNull(fileInfo);
-
-            ValidateFileExists(fileInfo);
-
-            return await this.sheetBroker.ReadAllExternalPersonPetsAsync(fileInfo);
-        });
+            await this.sheetBroker.ReadAllExternalPersonPetsAsync());
     }
 }

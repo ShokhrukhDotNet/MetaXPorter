@@ -19,24 +19,23 @@ namespace MetaXPorter.Api.Tests.Unit.Services.Foundations.ExternalPersonPets
         public async Task ShouldRetrieveAllExternalPersonPets()
         {
             // given
-            FileInfo inputFile = new FileInfo(Path.GetTempFileName());
             List<ExternalPerson> randomExternalPersonPets = CreateRandomExternalPersonPets();
             List<ExternalPerson> storageExternalPersonPets = randomExternalPersonPets;
             List<ExternalPerson> expectedExternalPersonPets = storageExternalPersonPets.DeepClone();
 
             this.sheetBrokerMock.Setup(broker =>
-                broker.ReadAllExternalPersonPetsAsync(inputFile))
+                broker.ReadAllExternalPersonPetsAsync())
                     .ReturnsAsync(storageExternalPersonPets);
 
             // when
             List<ExternalPerson> actualExternalPersonPets =
-                await this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync(inputFile);
+                await this.externalPersonPetService.RetrieveAllExternalPersonPetsAsync();
 
             // then
             actualExternalPersonPets.Should().BeEquivalentTo(expectedExternalPersonPets);
 
             this.sheetBrokerMock.Verify(broker =>
-                broker.ReadAllExternalPersonPetsAsync(inputFile),
+                broker.ReadAllExternalPersonPetsAsync(),
                     Times.Once);
 
             this.sheetBrokerMock.VerifyNoOtherCalls();
