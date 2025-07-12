@@ -13,17 +13,14 @@ namespace MetaXPorter.Api.Brokers.Sheets
 {
     public partial class SheetBroker
     {
-        public async ValueTask SavePeopleWithPetsToXmlFileAsync(IEnumerable<Person> peopleWithPets, string filePath)
+        public async ValueTask SavePeopleWithPetsToXmlFile(IEnumerable<Person> peopleWithPets, string filePath)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Person>));
-
-            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            await using FileStream fileStream = new FileStream(filePath, FileMode.Create);
             xmlSerializer.Serialize(fileStream, peopleWithPets);
-
-            await fileStream.FlushAsync();
         }
 
-        public async ValueTask<MemoryStream> RetrievePeopleWithPetsXmlFileAsync(string filePath)
+        public async ValueTask<MemoryStream> RetrievePeopleWithPetsXmlFile(string filePath)
         {
             byte[] fileBytes = await File.ReadAllBytesAsync(filePath);
             return new MemoryStream(fileBytes);

@@ -5,14 +5,15 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using MetaXPorter.Api.Models.Foundations.Persons;
 
 namespace MetaXPorter.Api.Brokers.Sheets
 {
     public partial interface ISheetBroker
     {
-        void SavePeopleWithPetsToXmlFile(IEnumerable<Person> peopleWithPets, string filePath);
+        ValueTask SavePeopleWithPetsToXmlFile(IEnumerable<Person> peopleWithPets, string filePath);
 
-        MemoryStream RetrievePeopleWithPetsXmlFile(string filePath);
+        ValueTask<MemoryStream> RetrievePeopleWithPetsXmlFile(string filePath);
     }
 }
