@@ -13,12 +13,21 @@ namespace MetaXPorter.Api.Services.Orchestrations.ExternalPersonPets
     public class ExternalPersonPetEventOrchestrationService : IExternalPersonPetEventOrchestrationService
     {
         private readonly IExternalPersonPetEventProcessingService externalPersonPetEventProcessingService;
+        private readonly IExternalPersonPetOrchestrationService externalPersonPetOrchestrationService;
 
         public ExternalPersonPetEventOrchestrationService(
-            IExternalPersonPetEventProcessingService externalPersonPetEventProcessingService) =>
-                this.externalPersonPetEventProcessingService = externalPersonPetEventProcessingService;
+            IExternalPersonPetEventProcessingService externalPersonPetEventProcessingService,
+            IExternalPersonPetOrchestrationService externalPersonPetOrchestrationService)
+        {
+            this.externalPersonPetEventProcessingService = externalPersonPetEventProcessingService;
+            this.externalPersonPetOrchestrationService = externalPersonPetOrchestrationService;
+        }
 
-        public ValueTask<List<ExternalPerson>> RetrieveExternalPersonPets() =>
-            this.externalPersonPetEventProcessingService.RetrieveExternalPersonPets();
+        public async ValueTask<List<ExternalPerson>> RetrieveExternalPersonPets()
+        {
+            await this.externalPersonPetOrchestrationService.RetrieveAndAddFormattedExternalPersonPetsAsync();
+
+            return await this.externalPersonPetEventProcessingService.RetrieveExternalPersonPets();
+        }
     }
 }
