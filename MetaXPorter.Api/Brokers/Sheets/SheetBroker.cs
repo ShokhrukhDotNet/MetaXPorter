@@ -5,24 +5,23 @@
 
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace MetaXPorter.Api.Brokers.Sheets
 {
     public partial class SheetBroker : ISheetBroker, IDisposable
     {
+        private readonly IConfiguration configuration;
+
+        public SheetBroker(IConfiguration configuration) =>
+            this.configuration = configuration;
+
         public void Dispose() { }
 
-        private FileInfo GetFileInfo(IFormFile file)
-        {
-            string tempPath = Path.Combine(Path.GetTempPath(), file.FileName);
+        private string GetSheetLocationWithName() =>
+            this.configuration.GetConnectionString("SheetConnection");
 
-            using (var stream = new FileStream(tempPath, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-
-            return new FileInfo(tempPath);
-        }
+        private FileInfo GetFileInfo() =>
+            new FileInfo(fileName: GetSheetLocationWithName());
     }
 }

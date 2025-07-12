@@ -19,14 +19,22 @@ namespace MetaXPorter.Api.Services.Processings.Persons
 
         public async ValueTask<Person> UpsertPersonAsync(Person person)
         {
-            Person maybePerson =
-                await this.personService.RetrievePersonByIdAsync(person.Id);
+            Person maybePerson = RetrievePerson(person);
 
             return maybePerson switch
             {
                 null => await this.personService.AddPersonAsync(person),
                 _ => await this.personService.ModifyPersonAsync(person)
             };
+        }
+
+        private Person RetrievePerson(Person person)
+        {
+            IQueryable<Person> retrievedPersons =
+                this.personService.RetrieveAllPeople();
+
+            return retrievedPersons.FirstOrDefault(storagePerson =>
+                storagePerson.Id == person.Id);
         }
 
         public IQueryable<Person> RetrieveAllPeople() =>

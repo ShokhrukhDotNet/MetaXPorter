@@ -4,7 +4,6 @@
 //==================================================
 
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using MetaXPorter.Api.Models.Foundations.ExternalPersons;
 using MetaXPorter.Api.Services.Processings.ExternalPersonPets;
@@ -24,11 +23,11 @@ namespace MetaXPorter.Api.Services.Orchestrations.ExternalPersonPets
             this.externalPersonPetEventProcessingService = externalPersonPetEventProcessingService;
         }
 
-        public async ValueTask RetrieveAndAddFormattedExternalPersonPetsAsync(FileInfo fileInfo)
+        public async ValueTask RetrieveAndAddFormattedExternalPersonPetsAsync()
         {
             List<ExternalPerson> formattedExternalPersonPets =
                 await this.externalPersonPetProcessingService
-                    .RetrieveFormattedExternalPersonPetsAsync(fileInfo);
+                    .RetrieveFormattedExternalPersonPetsAsync();
 
             await this.externalPersonPetEventProcessingService
                 .AddExternalPersonPets(formattedExternalPersonPets);

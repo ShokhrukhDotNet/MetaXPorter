@@ -19,14 +19,22 @@ namespace MetaXPorter.Api.Services.Processings.Pets
 
         public async ValueTask<Pet> UpsertPetAsync(Pet pet)
         {
-            Pet maybePet =
-                await this.petService.RetrievePetByIdAsync(pet.Id);
+            Pet maybePet = RetrievePet(pet);
 
             return maybePet switch
             {
                 null => await this.petService.AddPetAsync(pet),
                 _ => await this.petService.ModifyPetAsync(pet)
             };
+        }
+
+        private Pet RetrievePet(Pet pet)
+        {
+            IQueryable<Pet> retrievedPets =
+                this.petService.RetrieveAllPets();
+
+            return retrievedPets.FirstOrDefault(storagePet =>
+                storagePet.Id == pet.Id);
         }
 
         public IQueryable<Pet> RetrieveAllPets() =>

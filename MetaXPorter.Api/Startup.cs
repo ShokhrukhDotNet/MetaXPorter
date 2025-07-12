@@ -3,6 +3,21 @@
 // Free To Use For Reliable File Conversion
 //==================================================
 
+using System.Text.Json.Serialization;
+using MetaXPorter.Api.Brokers.Loggings;
+using MetaXPorter.Api.Brokers.Queues;
+using MetaXPorter.Api.Brokers.Sheets;
+using MetaXPorter.Api.Brokers.Storages;
+using MetaXPorter.Api.Services.Coordinations;
+using MetaXPorter.Api.Services.Foundations.ExternalPersonPets;
+using MetaXPorter.Api.Services.Foundations.Persons;
+using MetaXPorter.Api.Services.Foundations.Pets;
+using MetaXPorter.Api.Services.Orchestrations.ExternalPersonPets;
+using MetaXPorter.Api.Services.Orchestrations.PersonPets;
+using MetaXPorter.Api.Services.Orchestrations.Persons;
+using MetaXPorter.Api.Services.Processings.ExternalPersonPets;
+using MetaXPorter.Api.Services.Processings.Persons;
+using MetaXPorter.Api.Services.Processings.Pets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +42,15 @@ namespace MetaXPorter.Api
                 Version = "v1",
             };
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            services.AddDbContext<StorageBroker>();
+            AddBrokers(services);
+            AddFoundationServices(services);
+            AddProcessingServices(services);
+            AddOrchestrationServices(services);
+            AddCoordinationServices(services);
 
             services.AddSwaggerGen(options =>
             {
@@ -36,6 +59,43 @@ namespace MetaXPorter.Api
                     info: apiInfo);
             });
         }
+
+        private static void AddBrokers(IServiceCollection services)
+        {
+            services.AddTransient<IStorageBroker, StorageBroker>();
+            services.AddTransient<ILoggingBroker, LoggingBroker>();
+            services.AddTransient<ISheetBroker, SheetBroker>();
+            services.AddTransient<IQueueBroker, QueueBroker>();
+        }
+
+        private static void AddFoundationServices(IServiceCollection services)
+        {
+            services.AddTransient<IExternalPersonPetService, ExternalPersonPetService>();
+            services.AddTransient<IExternalPersonPetEventService, ExternalPersonPetEventService>();
+            services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<IPersonXMLService, PersonXMLService>();
+            services.AddTransient<IPetService, PetService>();
+        }
+
+        private static void AddProcessingServices(IServiceCollection services)
+        {
+            services.AddTransient<IExternalPersonPetProcessingService, ExternalPersonPetProcessingService>();
+            services.AddTransient<IExternalPersonPetEventProcessingService, ExternalPersonPetEventProcessingService>();
+            services.AddTransient<IPersonProcessingService, PersonProcessingService>();
+            services.AddTransient<IPersonXMLProcessingService, PersonXMLProcessingService>();
+            services.AddTransient<IPetProcessingService, PetProcessingService>();
+        }
+
+        private static void AddOrchestrationServices(IServiceCollection services)
+        {
+            services.AddTransient<IExternalPersonPetOrchestrationService, ExternalPersonPetOrchestrationService>();
+            services.AddTransient<IExternalPersonPetEventOrchestrationService, ExternalPersonPetEventOrchestrationService>();
+            services.AddTransient<IPersonPetOrchestrationService, PersonPetOrchestrationService>();
+            services.AddTransient<IPersonOrchestrationService, PersonOrchestrationService>();
+        }
+
+        private static void AddCoordinationServices(IServiceCollection services) =>
+            services.AddTransient<IPersonPetEventCoordinationService, PersonPetEventCoordinationService>();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
         {

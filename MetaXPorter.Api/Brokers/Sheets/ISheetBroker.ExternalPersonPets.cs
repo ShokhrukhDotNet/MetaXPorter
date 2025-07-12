@@ -4,7 +4,6 @@
 //==================================================
 
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using MetaXPorter.Api.Models.Foundations.ExternalPersons;
 
@@ -12,6 +11,6 @@ namespace MetaXPorter.Api.Brokers.Sheets
 {
     public partial interface ISheetBroker
     {
-        ValueTask<List<ExternalPerson>> ReadAllExternalPersonPetsAsync(FileInfo file);
+        ValueTask<List<ExternalPerson>> ReadAllExternalPersonPetsAsync();
     }
 }
