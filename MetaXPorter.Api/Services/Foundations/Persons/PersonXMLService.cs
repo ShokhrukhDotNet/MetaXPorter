@@ -18,16 +18,11 @@ namespace MetaXPorter.Api.Services.Foundations.Persons
         public PersonXMLService(ISheetBroker sheetBroker) =>
             this.sheetBroker = sheetBroker;
 
-        public ValueTask ExportPersonPetsToXml(IEnumerable<Person> persons, string filePath)
-        {
-            this.sheetBroker.SavePeopleWithPetsToXmlFile(persons, filePath);
-            return ValueTask.CompletedTask;
-        }
+        public async ValueTask ExportPersonPetsToXml(
+            IEnumerable<Person> persons, string filePath) =>
+                await this.sheetBroker.SavePeopleWithPetsToXmlFile(persons, filePath);
 
-        public ValueTask<Stream> RetrievePersonPetsXml(string filePath)
-        {
-            Stream xmlStream = this.sheetBroker.RetrievePeopleWithPetsXmlFile(filePath);
-            return new ValueTask<Stream>(xmlStream);
-        }
+        public async ValueTask<Stream> RetrievePersonPetsXml(string filePath) =>
+            await this.sheetBroker.RetrievePeopleWithPetsXmlFile(filePath);
     }
 }
