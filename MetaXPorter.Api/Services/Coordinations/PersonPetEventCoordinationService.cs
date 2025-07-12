@@ -17,19 +17,24 @@ namespace MetaXPorter.Api.Services.Coordinations
 {
     public class PersonPetEventCoordinationService : IPersonPetEventCoordinationService
     {
+        private readonly IExternalPersonPetOrchestrationService externalPersonPetOrchestrationService;
         private readonly IExternalPersonPetEventOrchestrationService externalPersonPetEventOrchestrationService;
         private readonly IPersonPetOrchestrationService personPetOrchestrationService;
 
         public PersonPetEventCoordinationService(
+            IExternalPersonPetOrchestrationService externalPersonPetOrchestrationService,
             IExternalPersonPetEventOrchestrationService externalPersonPetEventOrchestrationService,
             IPersonPetOrchestrationService personPetOrchestrationService)
         {
+            this.externalPersonPetOrchestrationService = externalPersonPetOrchestrationService;
             this.externalPersonPetEventOrchestrationService = externalPersonPetEventOrchestrationService;
             this.personPetOrchestrationService = personPetOrchestrationService;
         }
 
         public async ValueTask<List<PersonPet>> CoordinateExternalPersonPetsAsync()
         {
+            await this.externalPersonPetOrchestrationService.RetrieveAndAddFormattedExternalPersonPetsAsync();
+
             List<ExternalPerson> externalPersons =
                 await this.externalPersonPetEventOrchestrationService.RetrieveExternalPersonPets();
 
