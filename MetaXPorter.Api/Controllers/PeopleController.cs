@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using MetaXPorter.Api.Models.Orchestrations.PersonPets;
 using MetaXPorter.Api.Services.Coordinations;
 using MetaXPorter.Api.Services.Orchestrations.Persons;
+using MetaXPorter.Api.Services.Processings.ExternalPersonPets;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 
@@ -18,21 +20,30 @@ namespace MetaXPorter.Api.Controllers
     [Route("api/[controller]")]
     public class PeopleController : RESTFulController
     {
+        private readonly IExternalPersonPetInputProcessingService externalPersonPetInputProcessingService;
         private readonly IPersonPetEventCoordinationService personPetEventCoordinationService;
         private readonly IPersonOrchestrationService personOrchestrationService;
 
         public PeopleController(
+            IExternalPersonPetInputProcessingService externalPersonPetInputProcessingService,
             IPersonPetEventCoordinationService personPetEventCoordinationService,
             IPersonOrchestrationService personOrchestrationService)
         {
+            this.externalPersonPetInputProcessingService = externalPersonPetInputProcessingService;
             this.personPetEventCoordinationService = personPetEventCoordinationService;
             this.personOrchestrationService = personOrchestrationService;
-
         }
 
-        [HttpGet]
-        public async ValueTask<ActionResult<List<PersonPet>>> GetStoredPeople() =>
-            Ok(await this.personPetEventCoordinationService.CoordinateExternalPersonPetsAsync());
+        [HttpPost("upload-and-store")]
+        public async ValueTask<ActionResult<List<PersonPet>>> UploadAndStorePeople(IFormFile file)
+        {
+            await this.externalPersonPetInputProcessingService.UploadExternalPersonPetsFileAsync(file);
+
+            List<PersonPet> storedPeople =
+                await this.personPetEventCoordinationService.CoordinateExternalPersonPetsAsync();
+
+            return Ok(storedPeople);
+        }
 
         [HttpGet("export/download")]
         public async ValueTask<ActionResult> DownloadPeopleWithPetsXml()
