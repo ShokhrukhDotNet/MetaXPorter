@@ -72,6 +72,7 @@ namespace MetaXPorter.Api
         {
             services.AddTransient<IExternalPersonPetService, ExternalPersonPetService>();
             services.AddTransient<IExternalPersonPetEventService, ExternalPersonPetEventService>();
+            services.AddTransient<IExternalPersonPetInputService, ExternalPersonPetInputService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IPersonXMLService, PersonXMLService>();
             services.AddTransient<IPetService, PetService>();
@@ -81,6 +82,8 @@ namespace MetaXPorter.Api
         {
             services.AddTransient<IExternalPersonPetProcessingService, ExternalPersonPetProcessingService>();
             services.AddTransient<IExternalPersonPetEventProcessingService, ExternalPersonPetEventProcessingService>();
+            services.AddTransient<IExternalPersonPetInputProcessingService, ExternalPersonPetInputProcessingService>();
+
             services.AddTransient<IPersonProcessingService, PersonProcessingService>();
             services.AddTransient<IPersonXMLProcessingService, PersonXMLProcessingService>();
             services.AddTransient<IPetProcessingService, PetProcessingService>();
