@@ -29,6 +29,11 @@ namespace MetaXPorter.Api.Services.Foundations.ExternalPersonPets
                 this.loggingBroker.LogError(emptyFileException);
                 throw;
             }
+            catch (InvalidExternalPersonPetInputFileTypeException invalidTypeFile)
+            {
+                this.loggingBroker.LogError(invalidTypeFile);
+                throw;
+            }
             catch (Exception exception)
             {
                 this.loggingBroker.LogError(exception);

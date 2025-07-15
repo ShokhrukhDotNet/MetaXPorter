@@ -6,6 +6,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using MetaXPorter.Api.Models.Foundations.ExternalPersons.Exceptions;
+using MetaXPorter.Api.Models.Foundations.Persons.Exceptions;
 using MetaXPorter.Api.Models.Orchestrations.PersonPets;
 using MetaXPorter.Api.Services.Coordinations;
 using MetaXPorter.Api.Services.Orchestrations.Persons;
@@ -37,23 +39,59 @@ namespace MetaXPorter.Api.Controllers
         [HttpPost("upload-and-store")]
         public async ValueTask<ActionResult<List<PersonPet>>> UploadAndStorePeople(IFormFile file)
         {
-            await this.externalPersonPetInputProcessingService.UploadExternalPersonPetsFileAsync(file);
+            try
+            {
+                await this.externalPersonPetInputProcessingService.UploadExternalPersonPetsFileAsync(file);
 
-            List<PersonPet> storedPeople =
-                await this.personPetEventCoordinationService.CoordinateExternalPersonPetsAsync();
+                List<PersonPet> storedPeople =
+                    await this.personPetEventCoordinationService.CoordinateExternalPersonPetsAsync();
 
-            return Ok(storedPeople);
+                return Ok(storedPeople);
+            }
+            catch (NullExternalPersonPetInputFileException nullExternalPersonPetInputFileException)
+            {
+                return BadRequest(new { Error = nullExternalPersonPetInputFileException.Message });
+            }
+            catch (EmptyExternalPersonPetInputFileException emptyExternalPersonPetInputFileException)
+            {
+                return BadRequest(new { Error = emptyExternalPersonPetInputFileException.Message });
+            }
+            catch (InvalidExternalPersonPetInputFileTypeException InputFileTypeException)
+            {
+                return BadRequest(new { Error = InputFileTypeException.Message });
+            }
+            catch (ExternalPersonPetDependencyException externalPersonPetDependencyException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = externalPersonPetDependencyException.Message });
+            }
+            catch (ExternalPersonPetServiceException externalPersonPetServiceException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new { Error = externalPersonPetServiceException.Message });
+            }
         }
 
         [HttpGet("export/download")]
         public async ValueTask<ActionResult> DownloadPeopleWithPetsXml()
         {
-            await this.personOrchestrationService.ExportAllPeopleWithPetsToXmlAsync();
+            try
+            {
+                await this.personOrchestrationService.ExportAllPeopleWithPetsToXmlAsync();
 
-            Stream xmlFileStream =
-                await this.personOrchestrationService.RetrievePeopleWithPetsXmlFileAsync();
+                Stream xmlFileStream =
+                    await this.personOrchestrationService.RetrievePeopleWithPetsXmlFileAsync();
 
-            return File(xmlFileStream, "application/xml", "PeopleWithPets.xml");
+                return File(xmlFileStream, "application/xml", "PeopleWithPets.xml");
+            }
+            catch (PersonDependencyException personDependencyException)
+            {
+                return InternalServerError(personDependencyException.InnerException);
+            }
+            catch (PersonServiceException personServiceException)
+            {
+                return InternalServerError(personServiceException.InnerException);
+            }
         }
     }
 }

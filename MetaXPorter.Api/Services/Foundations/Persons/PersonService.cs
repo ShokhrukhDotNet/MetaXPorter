@@ -45,7 +45,6 @@ namespace MetaXPorter.Api.Services.Foundations.Persons
             return maybePerson;
         });
 
-
         public IQueryable<Person> RetrieveAllPeople() =>
             TryCatch(() => this.storageBroker.SelectAllPeople());
 
